@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import Posts from './Posts/Posts';
+import NewPost from './NewPost/NewPost';
+import { Route, NavLink, Switch } from 'react-router-dom';
+import FullPost from './FullPost/FullPost';
 
-import { Route } from 'react-router-dom';
 import './Blog.css';
 
 class Blog extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className='Blog'>
@@ -15,26 +14,29 @@ class Blog extends Component {
           <nav>
             <ul>
               <li>
-                <a href='/' title='Home'>
+                <NavLink to='/' exact activeClassName='active'>
                   Home
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a href='/new-post' title='New Post'>
+                <NavLink
+                  to={{
+                    pathname: '/new-post',
+                    hash: '#submit',
+                    search: '?quick-submit=true',
+                  }}>
                   New Post
-                </a>
+                </NavLink>
               </li>
             </ul>
           </nav>
         </header>
-        <Route path='/' exact render={() => <h1>Home</h1>} />
-        {/* <Posts /> */}
-        {/* <section>
-          <FullPost id={this.state.selectedPostId} />
-        </section>
-        <section>
-          <NewPost />
-        </section> */}
+        {/* <Route path='/' exact render={() => <h1>Home</h1>} /> */}
+        <Switch>
+          <Route path='/' exact component={Posts} />
+          <Route path='/new-post' exact component={NewPost} />
+          <Route path='/:id' exact component={FullPost} />
+        </Switch>
       </div>
     );
   }
